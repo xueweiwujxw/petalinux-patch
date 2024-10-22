@@ -4,5 +4,6 @@
 
 ## Tree of Folders
 
-- [petalinux-2021.1](/petalinux-2021.1) Patches of petalinux 2021.1
-  - [u-boot-loadbit](/petalinux-2021.1/u-boot-loadbit/) How to load bitstream dynamically in u-boot
+- [zynq](/zynq/) Patches of zynq arch
+  - [petalinux-2021.1](/zynq/petalinux-2021.1) Patches of petalinux 2021.1
+    - [u-boot-loadbit](/zynq/petalinux-2021.1/u-boot-loadbit/) How to load bitstream dynamically in u-boot
