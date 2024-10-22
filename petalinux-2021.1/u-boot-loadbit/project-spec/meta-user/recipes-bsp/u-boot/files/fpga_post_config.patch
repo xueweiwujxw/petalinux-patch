@@ -1,0 +1,47 @@
+diff --git a/board/xilinx/zynq/Makefile b/board/xilinx/zynq/Makefile
+index 8566171589..792643ab11 100644
+--- a/board/xilinx/zynq/Makefile
++++ b/board/xilinx/zynq/Makefile
+@@ -31,13 +31,13 @@ $(warning Put custom ps7_init_gpl.c/h to board/xilinx/zynq/custom_hw_platform/))
+ endif
+ endif
+ 
++obj-y += $(init-objs)
++
+ ifndef CONFIG_SPL_BUILD
+ obj-$(CONFIG_CMD_ZYNQ) += cmds.o
+ obj-$(CONFIG_CMD_ZYNQ_RSA) += bootimg.o
+ endif
+ 
+-obj-$(CONFIG_SPL_BUILD) += $(init-objs)
+-
+ # Suppress "warning: function declaration isn't a prototype"
+ CFLAGS_REMOVE_ps7_init_gpl.o := -Wstrict-prototypes
+ 
+diff --git a/board/xilinx/zynq/cmds.c b/board/xilinx/zynq/cmds.c
+index 73e2b0eac7..aa7d8d5091 100644
+--- a/board/xilinx/zynq/cmds.c
++++ b/board/xilinx/zynq/cmds.c
+@@ -18,6 +18,7 @@
+ #include <zynqpl.h>
+ #include <fpga.h>
+ #include <zynq_bootimg.h>
++#include "ps7_init_gpl.h"
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+ 
+@@ -550,3 +551,14 @@ static char zynq_help_text[] =
+ U_BOOT_CMD(zynq,	6,	0,	do_zynq,
+ 	   "Zynq specific commands", zynq_help_text
+ );
++
++static int do_ps7_fpga_post_config(struct cmd_tbl *cmdtp, int flag, int argc,
++							  char *const argv[]) {
++	puts("INFO:run board ps7 post config\n");
++	return ps7_post_config();
++}
++
++U_BOOT_CMD(
++	postconfig, 1, 0, do_ps7_fpga_post_config,
++	"run ps7 post config after fpga load bin file",
++	"");
